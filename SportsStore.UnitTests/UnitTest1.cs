@@ -31,7 +31,7 @@ namespace SportsStore.UnitTests
 			ProductController controller = new ProductController(mock.Object);
 			controller.PageSize = 3;
 
-			ProductsListViewModel result = (ProductsListViewModel)controller.List(2).Model;
+			ProductsListViewModel result = (ProductsListViewModel)controller.List(null, 2).Model;
 
 			Product[] prodArray = result.Products.ToArray();
 			Assert.IsTrue(prodArray.Length == 2);
@@ -71,13 +71,54 @@ namespace SportsStore.UnitTests
 			ProductController controller = new ProductController(mock.Object);
 			controller.PageSize = 3;
 
-			ProductsListViewModel result = (ProductsListViewModel)controller.List(2).Model;
+			ProductsListViewModel result = (ProductsListViewModel)controller.List(null, 2).Model;
 
 			PagingInfo pageInfo = result.PagingInfo;
 			Assert.AreEqual(pageInfo.CurrentPage, 2);
 			Assert.AreEqual(pageInfo.ItemPerPage, 3);
 			Assert.AreEqual(pageInfo.TotalItems, 5);
 			Assert.AreEqual(pageInfo.TotalPages, 2);
+		}
+
+		[TestMethod]
+		public void Can_Filter_Products()
+		{
+			Mock<IProductRepository> mock = new Mock<IProductRepository>();
+			mock.Setup(m => m.Products).Returns(new Product[]
+			{
+				new Product {ProductID = 1, Name = "P1", Category = "Cat1"},
+				new Product {ProductID = 2, Name = "P2", Category = "Cat2"},
+				new Product {ProductID = 3, Name = "P3", Category = "Cat1"},
+				new Product {ProductID = 4, Name = "P4", Category = "Cat2"},
+				new Product {ProductID = 5, Name = "P5", Category = "Cat3"},
+			});
+
+			ProductController controller = new ProductController(mock.Object);
+			controller.PageSize = 3;
+
+			Product[] result = ((ProductsListViewModel)controller.List("Cat2", 1).Model).Products.ToArray();
+
+			Assert.AreEqual(2, result.Length);
+		}
+
+		[TestMethod]
+		public void Can_Create_Categories()
+		{
+			Mock<IProductRepository> mock = new Mock<IProductRepository>();
+			mock.Setup(m => m.Products).Returns(new Product[]
+			{
+				new Product {ProductID = 1, Name = "P1", Category = "Apple"},
+				new Product {ProductID = 2, Name = "P2", Category = "Apple"},
+				new Product {ProductID = 3, Name = "P3", Category = "Orange"},
+				new Product {ProductID = 4, Name = "P4", Category = "Banana"},
+				
+			});
+
+			NavController controller = new NavController(mock.Object);
+
+			string[] results = ((IEnumerable<string>)controller.Menu().Model).ToArray();
+
+			Assert.AreEqual(3, results.Length);
 		}
 	}
 }
