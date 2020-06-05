@@ -1,0 +1,16 @@
+X-Sender: sportsstore@example.com
+X-Receiver: orders@example.com
+MIME-Version: 1.0
+From: sportsstore@example.com
+To: orders@example.com
+Date: 5 Jun 2020 23:09:02 +0200
+Subject: New order submitted !
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+
+A new order has been submitted=0D=0A---=0D=0AItems:=0D=0A2 * Kaya=
+k (subtotal : ?550.001 * Corner Flags (subtotal : ?34.951 * Human=
+ Chess Board (subtotal : ?75.00Total order value: ?659.95---=0D=0A=
+Ship to:=0D=0A12 RUE DE LORRAINE=0D=0A4eme etage=0D=0Abat1=0D=0Ap=
+aris=0D=0AHaut de seine=0D=0AFrance=0D=0A92300=0D=0A---=0D=0AGift=
+ wrap: No
