@@ -7,6 +7,8 @@ using SportsStore.WebUI.Controllers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using SportsStore.WebUI.Infrastructure.Abstract;
+using SportsStore.WebUI.Models;
 
 namespace SportsStore.UnitTests
 {
@@ -74,6 +76,22 @@ namespace SportsStore.UnitTests
 			mock.Verify(m => m.SaveProduct(product));
 
 			Assert.IsNotInstanceOfType(result, typeof(ViewResult));
+		}
+
+		[TestMethod]
+		public void Can_Login_With_Valid_Credentials()
+		{
+			Mock<IAuthProvider> mock = new Mock<IAuthProvider>();
+			mock.Setup(m => m.Authenticate("admin", "secret")).Returns(true);
+
+			LoginViewModel model = new LoginViewModel { UserName = "admin", Password = "secret" };
+
+			AccountController target = new AccountController(mock.Object);
+
+			ActionResult result = target.Login(model, "/MyUrl");
+
+			Assert.IsInstanceOfType(result, typeof(RedirectResult));
+			Assert.AreEqual("/MyUrl", ((RedirectResult)result).Url);
 		}
 	}
 }
