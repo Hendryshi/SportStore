@@ -25,3 +25,8 @@ union
 select 'Human Chess Board', 'A fun game for the family', 'Chess', 75.00
 union
 select 'Bling-Bling King', 'Glod-plated, diamond-studded King', 'Chess', 1200.00
+
+
+ALTER TABLE Products
+	ADD ImageData VARBINARY(MAX) NULL,
+		 ImageMimeType VARCHAR(50) NULL;
